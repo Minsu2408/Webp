@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Document</title>
+</head>
+<body>
+  <pre id="star-output"></pre>
+
+  <script>
+    const n = 4;
+    let result = '';
+
+    for (let i = 1; i <= n; i++) {
+      result += '*'.repeat(i) + '\n';
+    }
+
+    document.getElementById('star-output').textContent = result;
+  </script>
+</body>
+</html>

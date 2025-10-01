@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>윤년 판별기</title>
+</head>
+<body>
+  <button onclick="checkLeapYear()">년도 입력</button>
+  <p id="result"></p>
+
+  <script>
+    function checkLeapYear() {
+      const year = prompt("년도를 입력하세요:");
+      const y = Number(year);
+      if (isNaN(y) || y <= 0) {
+        document.getElementById('result').textContent = "올바른 년도를 입력하세요.";
+        return;
+      }
+
+      if ((y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0)) {
+        document.getElementById('result').textContent = y + "년은 윤년입니다.";
+      } else {
+        document.getElementById('result').textContent = y + "년은 평년입니다.";
+      }
+    }
+  </script>
+</body>
+</html>
