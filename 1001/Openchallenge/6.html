@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>별 문자 출력하기</title>
+</head>
+<body>
+    <script>
+        function printstar(n) {//별문자 출력 함수
+            n = parseInt(n);    //입력값을 정수로 변환
+            if (isNaN(n)) { // 입력값이 숫자가 아닌 경우 처리
+                document.write("입력 오류 입니다.");
+                return;
+            }
+            for (i = 0; i < n; i++) {//행
+                for(j = 0; j <= i; j++){//열
+                    document.write("*");//별문자 출력
+                }
+                document.write("<br>");//줄바꿈
+            }
+        }
+    </script>
+
+    <h3>별 문자 출력하기</h3>
+    <hr>
+    <script>
+        var n = prompt("숫자를 입력하세요", "1");//입력창 띄우기
+        printstar(n);
+    </script>
+</body>
+</html>
