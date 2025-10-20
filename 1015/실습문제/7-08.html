@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>랜덤한 색 만들기</title>
+    <style>
+        div {
+            display: inline-block;
+            width: 150px;
+            padding: 10px;
+        }
+        </style>
+</head>
+<body>
+    <h3>16개의 랜덤한 색 만들기</h3>
+    <hr>
+    <script>
+        function getRandomInt(min, max){
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function getRandomColor(){
+            let r = getRandomInt(0, 256);
+            let g = getRandomInt(0, 256);
+            let b = getRandomInt(0, 256);
+            return "rgb(" + r + "," + g + "," + b + ")";
+        }
+
+        for(let i = 0; i < 16; i++){
+            let color = getRandomColor();
+            let s = "<div style='display:inline-block;";
+            s += "background-color:" + color + "'>";
+            s += color + "</div>";
+            document.write(s);
+        }
+    </script>
+</body>
+</html>
