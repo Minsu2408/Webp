@@ -279,3 +279,43 @@ parent.removeChild(myDiv);
 ### 예제 8-11 HTML 태그의 동적 추가 및 삭제
 
 링크 클릭 시 `<div>` 생성 → 생성된 박스를 클릭하면 삭제됨.  
+
+
+9장 수업내용 요약
+HTML과 DOM
+HTML 문서 구조 이해 (<!DOCTYPE html>, <html>, <head>, <body> 등)
+
+DOM(Document Object Model) : HTML 요소를 자바스크립트로 조작 가능하게 만든 구조
+
+주요 이벤트: onclick, onmouseover, onmouseout, onkeydown 등
+
+xml
+<p id="example" onmouseover="this.style.backgroundColor='orchid'" onmouseout="this.style.backgroundColor='white'">예제 문장</p>
+이벤트 처리
+이벤트 리스너 등록 : addEventListener 이용
+
+이벤트 객체(event)의 활용 방법
+
+이벤트 버블링, 캡처링 개념 및 차이점
+
+javascript
+element.addEventListener('click', function(e) {
+  e.preventDefault(); // 기본 이벤트 방지
+  alert('클릭됨');
+});
+##폼과 입력 요소
+
+다양한 입력 요소: input, checkbox, radio, select
+
+폼 이벤트: submit, reset, 입력값 유효성 검사
+
+이미지 및 스타일 제어
+이미지 변경 및 스타일 변화 예제
+
+onload, onerror 이벤트 활용
+
+자바스크립트 함수와 변수
+함수 선언과 이벤트 핸들러 연결 방법
+
+변수 사용과 스코프 이해
+
