@@ -281,41 +281,122 @@ parent.removeChild(myDiv);
 링크 클릭 시 `<div>` 생성 → 생성된 박스를 클릭하면 삭제됨.  
 
 
-9장 수업내용 요약
-HTML과 DOM
-HTML 문서 구조 이해 (<!DOCTYPE html>, <html>, <head>, <body> 등)
+# 명품 웹 프로그래밍 - 이벤트 수업 정리
 
-DOM(Document Object Model) : HTML 요소를 자바스크립트로 조작 가능하게 만든 구조
+## 강의 목표
+- 이벤트가 무엇인지, 언제 발생하는지 이해
+- 자바스크립트로 이벤트 리스너 작성법 습득
+- 발생하는 이벤트가 DOM 트리를 따라 흐르는 경로 이해
+- 문서와 이미지 로딩 완료시 호출되는 onload 리스너 작성
+- 폼 이벤트 리스너 다루기
+- 마우스 관련 이벤트 다루기
+- 키 관련 이벤트 다루기
 
-주요 이벤트: onclick, onmouseover, onmouseout, onkeydown 등
+## 이벤트 개요
+- 이벤트: 마우스 클릭, 키보드 입력, 문서/이미지 로딩, 타이머 등 사용자의 입력 행위나 문서/브라우저 상태 변화를 알리는 통지(Notification)
+- 이벤트 리스너: 이벤트 발생에 대응하는 자바스크립트 코드
+- HTML5 기준 이벤트 종류: 70여 가지 이상 존재
+- 이벤트 리스너 이름은 이벤트 이름 앞에 `on` 접두어 붙임 (예: `onmousedown`, `onkeydown`)
 
-xml
-<p id="example" onmouseover="this.style.backgroundColor='orchid'" onmouseout="this.style.backgroundColor='white'">예제 문장</p>
-이벤트 처리
-이벤트 리스너 등록 : addEventListener 이용
+## 브라우저에서 발생하는 주요 이벤트들
+| 이벤트명     | 설명                                   |
+|--------------|---------------------------------------|
+| dblclick     | 마우스 더블클릭                       |
+| keydown      | 키 누를 때                            |
+| keyup        | 누른 키를 놓을 때                     |
+| load         | 이미지 혹은 HTML 문서 전체 로딩 완료 |
+| change       | 라디오 버튼 선택 시                   |
+| resize      | 윈도우 크기 변경 시                   |
+| submit       | 제출 버튼 클릭 시                     |
+| reset        | 초기화 버튼 클릭 시                   |
+| click        | 마우스 클릭 시                        |
 
-이벤트 객체(event)의 활용 방법
+## 이벤트 리스너 작성법 3가지
+1. HTML 태그 내에 이벤트 코드 직접 작성  
+<p onmouseover="this.style.backgroundColor='orchid'" onmouseout="this.style.backgroundColor='white'">...</p> ``` 2. DOM 객체 이벤트 리스너 프로퍼티에 함수 등록 ``` let p = document.getElementById("p"); p.onmouseover = function() { p.style.backgroundColor = "orchid"; }; ``` 3. DOM 객체의 `addEventListener` 메소드 사용 ``` p.addEventListener("mouseover", function() { p.style.backgroundColor = "orchid"; }); ```
+익명 함수(Anonymous Function)로 작성 예
+text
+p.onmouseover = function () { this.style.backgroundColor = "orchid"; };
+p.addEventListener("mouseover", function () { this.style.backgroundColor = "orchid"; });
+이벤트 객체 (Event Object)
+이벤트 발생 시 관련된 다양한 정보 담음 (예: 마우스 좌표, 눌린 버튼, 키 코드 등)
 
-이벤트 버블링, 캡처링 개념 및 차이점
+이벤트 리스너 함수 첫 번째 매개변수로 전달됨
 
-javascript
-element.addEventListener('click', function(e) {
-  e.preventDefault(); // 기본 이벤트 방지
-  alert('클릭됨');
-});
-##폼과 입력 요소
+주요 프로퍼티 예:
 
-다양한 입력 요소: input, checkbox, radio, select
+type: 이벤트 종류 (예: "click")
 
-폼 이벤트: submit, reset, 입력값 유효성 검사
+target: 이벤트 발생 대상 DOM 객체
 
-이미지 및 스타일 제어
-이미지 변경 및 스타일 변화 예제
+currentTarget: 이벤트 리스너가 부착된 대상
 
-onload, onerror 이벤트 활용
+defaultPrevented: 기본 동작 취소 여부
 
-자바스크립트 함수와 변수
-함수 선언과 이벤트 핸들러 연결 방법
+이벤트 기본 동작 취소
+특정 이벤트의 기본 행동(XML 태그가 갖는 기본 행동)을 막는 방법:
 
-변수 사용과 스코프 이해
+이벤트 리스너에서 false 반환
 
+이벤트 객체의 preventDefault() 메소드 호출 (단, cancelable이 true일 때만 가능)
+
+text
+<a href="http://www.naver.com" onclick="event.preventDefault();">이동 안됨 링크</a>
+이벤트 흐름 (Capturing, Bubbling)
+이벤트 발생 시 window 객체 → 타겟 객체 → window 객체 순서로 흐름
+
+단계
+
+캡처링 단계 (capturing phase): 윈도우 → 타겟까지 이벤트 전달 (중간 DOM 모두 포함)
+
+타겟 단계: 실제 이벤트 대상에서 이벤트 발생
+
+버블링 단계 (bubbling phase): 타겟 → 윈도우로 이벤트 전달
+
+이벤트 리스너 등록 시 세 번째 인자로 true 넣으면 캡처링 리스너, false 또는 생략 시 버블링 리스너
+
+text
+element.addEventListener("click", handler, true); // 캡처링 리스너
+element.addEventListener("click", handler, false); // 버블링 리스너
+이벤트 흐름 중단 가능: event.stopPropagation() 호출
+
+마우스 이벤트 종류 및 설명
+이벤트명	설명
+onclick	클릭 시
+ondblclick	더블 클릭 시
+onmousedown	버튼 누르는 순간
+onmouseup	버튼 놓는 순간
+onmouseover	마우스 태그 위 진입 시
+onmouseout	마우스 태그에서 벗어날 때
+onmouseenter	버블링 없음, 태그 진입 시
+onmouseleave	버블링 없음, 태그 벗어날 때
+onwheel	마우스 휠 움직임 동안
+이미지 및 문서 로딩 완료 (onload)
+웹페이지 전체나 문서, 이미지 로딩 완료 시 호출되는 이벤트
+
+window 객체 또는 <body onload="">에서 구현 가능
+
+이미지 크기 등의 정보를 정확히 얻으려면 이미지 onload 이벤트 활용 필요
+
+포커스 이벤트
+onblur: 포커스 잃을 때
+
+onfocus: 포커스 얻을 때
+
+폼 입력 등에서 입력 강제 시 활용 가능 (예: 빈칸 있으면 포커스 유지)
+
+폼 관련 이벤트
+onsubmit: 폼 제출 시 호출, false 반환 시 제출 취소
+
+onreset: 폼 초기화 시 호출, false 반환 시 초기화 취소
+
+라디오 버튼, 체크박스 처리
+라디오 그룹, 체크박스 상태 접근 및 선택된 항목 판별 스크립트 작성 가능
+
+키보드 이벤트
+이벤트명	동작
+onkeydown	키를 누르는 순간 (모든 키)
+onkeypress	문자인 키, Enter, Space 등만
+onkeyup	키를 놓는 순간
+화살표키를 이용한 셀 이동 예제
+3x3 테이블의 셀 선택 표시를 방향키로 이동시키는 기능 구현
